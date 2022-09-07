@@ -17,6 +17,7 @@ create_database()
 @app.get('/get_all_categories/', response_model=List[Category])
 async def get_all_products_api(
         database: Session = Depends(get_database)):
+    """Эндпоинт получения всех категорий"""
 
     return get_all_category(database)
 
@@ -25,6 +26,7 @@ async def get_all_products_api(
 async def get_data_by_slug_api(
         category_id: int,
         database: Session = Depends(get_database)):
+    """Эндпоинт получения категории по id"""
 
     return get_category_by_id(database, category_id)
 
@@ -32,6 +34,7 @@ async def get_data_by_slug_api(
 @app.post('/parse_categories/')
 async def parse_categories_api(
         database: Session = Depends(get_database)):
+    """Эндпоинт парсинга категорий"""
 
     if categories := ParseCategories().parse_data():
         for category in categories:
@@ -45,6 +48,7 @@ async def parse_categories_api(
 @app.get('/get_all_products/', response_model=List[Product])
 async def get_all_products_api(
         database: Session = Depends(get_database)):
+    """Эндпоинт получения всех товаров"""
 
     return get_all_products(database)
 
@@ -53,6 +57,7 @@ async def get_all_products_api(
 async def get_products_by_category(
         slug: int,
         database: Session = Depends(get_database)):
+    """Эндпоинт получения всех товаров по слагу категории"""
 
     return get_product_by_category(database, slug)
 
@@ -61,6 +66,7 @@ async def get_products_by_category(
 async def get_products_by_slug_api(
         slug: int | str,
         database: Session = Depends(get_database)):
+    """Эндпоинт получения товара по id или имени"""
 
     if type(slug) == int:
         return get_product_by_id(database, slug)
@@ -76,6 +82,7 @@ async def parse_products_api(
         slug: str,
         count_of_data: int,
         database: Session = Depends(get_database)):
+    """Эндпоинт парсинга товарав по слагу категории и количеству товаров"""
 
     if products := ParseProducts().parse_data(slug, count_of_data):
         for product_id in products:

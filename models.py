@@ -5,6 +5,8 @@ from database import Base
 
 
 class Category(Base):
+    """Модель Категории"""
+
     __tablename__ = 'Categories'
 
     id = Column(Integer, primary_key=True)
@@ -12,6 +14,8 @@ class Category(Base):
 
 
 class Products(Base):
+    """Модель Продукта"""
+
     __tablename__ = 'Products'
 
     id = Column(Integer, primary_key=True)

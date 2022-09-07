@@ -4,6 +4,8 @@ from pydantic import BaseModel
 
 
 class Category(BaseModel):
+    """Схема Категории"""
+
     id: int
     category_name: str
 
@@ -12,6 +14,8 @@ class Category(BaseModel):
 
 
 class Product(BaseModel):
+    """Схема Продукта"""
+
     id: int
     title: str
     category_id: int

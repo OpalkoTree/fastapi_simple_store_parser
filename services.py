@@ -15,10 +15,14 @@ ua = UserAgent()
 
 
 def create_database():
+    """Функция создания базы данных"""
+
     return Base.metadata.create_all(bind=engine)
 
 
 def get_database():
+    """Функция получения базы данных"""
+
     database = SessionLocal()
 
     try:
@@ -29,6 +33,8 @@ def get_database():
 
 @dataclass
 class Request:
+    """Сервис отправки запросов по url"""
+
     url: str
     data: Optional[dict] = None
 
@@ -62,6 +68,8 @@ class Request:
 
 @dataclass
 class ParseCategory:
+    """Сервис парсинга одной категории"""
+
     slug: str
 
     id: int = field(init=False)
@@ -87,6 +95,8 @@ class ParseCategory:
 
 @dataclass
 class ParseCategories:
+    """Сервис парсинга категорий"""
+
     slugs: List[str] = field(init=False, default_factory=list)
 
     def parse_data(self) -> List[str]:
@@ -107,6 +117,8 @@ class ParseCategories:
 
 @dataclass
 class ParseProduct:
+    """Сервис парсинга одного товара"""
+
     id: int
     title: str = field(init=False)
     category_id: int = field(init=False)
@@ -161,6 +173,8 @@ class ParseProduct:
 
 @dataclass
 class ParseProducts:
+    """Сервис парсинга товаров"""
+
     ids: List[int] = field(init=False, default_factory=list)
 
     def parse_data(self, slug: str, count: int) -> List[int]:
@@ -177,10 +191,14 @@ class ParseProducts:
 
 
 def get_all_category(database: Session) -> list:
+    """Запрос получения всех категорий"""
+
     return database.query(Category).all()
 
 
 def get_category_by_id(database: Session, category_id: int) -> list | JSONResponse:
+    """Запрос получения категории по id"""
+
     if categories := database.query(Category).filter(Category.id == category_id).first():
         return categories
 
@@ -188,10 +206,14 @@ def get_category_by_id(database: Session, category_id: int) -> list | JSONRespon
 
 
 def get_all_products(database: Session) -> list:
+    """Запрос получения всех продуктов"""
+
     return database.query(Products).all()
 
 
 def get_product_by_category(database: Session, category_id:  int) -> list | JSONResponse:
+    """Запрос получения всех продуктов по категории"""
+
     if product := database.query(Products).filter(Products.category_id == category_id).all():
         return product
 
@@ -199,6 +221,8 @@ def get_product_by_category(database: Session, category_id:  int) -> list | JSON
 
 
 def get_product_by_name(database: Session, name: str) -> models.Products | JSONResponse:
+    """Запрос получения продукта по имени"""
+
     if product := database.query(Products).filter(Products.title == name).first():
         print(type(product))
         return product
@@ -207,6 +231,8 @@ def get_product_by_name(database: Session, name: str) -> models.Products | JSONR
 
 
 def get_product_by_id(database: Session, product_id: int) -> models.Products | JSONResponse:
+    """Запрос получения продукта по id"""
+
     if product := database.query(Products).filter(Products.id == product_id).first():
         return product
 
